@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
-
+from django.core.exceptions import ValidationError
 
 class Room(models.Model):
     name = models.CharField(max_length=150)
@@ -42,6 +42,21 @@ class Booking(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def clean(self):
+        conflict = Booking.objects.filter(
+            room=self.room,
+            booking_date=self.booking_date,
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time,
+        ).exclude(pk=self.pk)
+
+        if conflict.exists():
+            raise ValidationError("Ця кімната вже заброньована на вибраний проміжок часу.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username} - {self.room.name} ({self.booking_date})"
