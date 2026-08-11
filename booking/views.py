@@ -8,6 +8,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Room, Booking
+from .forms import BookingForm
 
 class RoomListView(ListView):
     model = Room
@@ -24,14 +25,7 @@ class RoomDetailView(DetailView):
 
 class BookingCreateView(LoginRequiredMixin, CreateView):
     model = Booking
-    fields = [
-        "room",
-        "booking_date",
-        "start_time",
-        "end_time",
-        "purpose",
-    ]
-
+    form_class = BookingForm
     template_name = "booking/booking_form.html"
     success_url = reverse_lazy("booking:my_bookings")
 
