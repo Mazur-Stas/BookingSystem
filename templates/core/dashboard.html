@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Панель менеджера | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="manager-header">
+
+        <h1>Панель менеджера</h1>
+
+        <p>
+            Керування кімнатами та бронюваннями.
+        </p>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>Всього кімнат</span>
+
+            <strong>
+                {{ total_rooms }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Всього бронювань</span>
+
+            <strong>
+                {{ total_bookings }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Нові заявки</span>
+
+            <strong>
+                {{ new_bookings }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Швидкі дії</h2>
+
+        <br>
+
+        <div class="manager-actions">
+
+            <a
+                href="{% url 'core:booking_requests' %}"
+                class="btn btn-primary"
+            >
+                Заявки
+            </a>
+
+            <a
+                href="{% url 'core:room_create' %}"
+                class="btn btn-success"
+            >
+                Додати кімнату
+            </a>
+
+            <a
+                href="{% url 'core:statistics' %}"
+                class="btn btn-outline"
+            >
+                Статистика
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

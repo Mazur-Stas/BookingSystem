@@ -8,7 +8,8 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Room, Booking
-from .forms import BookingForm
+from .forms import BookingForm, RoomSearchForm
+
 
 class RoomListView(ListView):
     model = Room
@@ -16,7 +17,22 @@ class RoomListView(ListView):
     context_object_name = "rooms"
 
     def get_queryset(self):
-        return Room.objects.filter(is_active=True)
+        queryset = Room.objects.filter(is_active=True)
+        floor = self.request.GET.get("floor")
+        capacity = self.request.GET.get("capacity")
+        if floor:
+            queryset = queryset.filter(floor=floor)
+        if capacity:
+            queryset = queryset.filter(capacity__gte=capacity)
+
+        return queryset
+
+    def get_context_data(self, **arg):
+        context = super().get_context_data(**arg)
+        context["search_form"] = RoomSearchForm(
+            self.request.GET or None
+        )
+        return context
 
 class RoomDetailView(DetailView):
     model = Room

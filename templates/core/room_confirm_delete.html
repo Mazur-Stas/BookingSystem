@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Видалення кімнати | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="delete-container">
+
+        <div class="delete-card">
+
+            <div class="delete-icon">
+                ⚠
+            </div>
+
+            <h1>Видалити кімнату?</h1>
+
+            <p>
+                Ви дійсно хочете видалити кімнату
+                <strong>{{ object.name }}</strong>?
+            </p>
+
+            <p class="delete-warning">
+                Цю дію неможливо буде скасувати.
+            </p>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        Так, видалити
+                    </button>
+
+                    <a
+                        href="{% url 'booking:room_list' %}"
+                        class="btn btn-outline"
+                    >
+                        Скасувати
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

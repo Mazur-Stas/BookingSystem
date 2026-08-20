@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Скасування бронювання | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="delete-container">
+
+        <div class="delete-card">
+
+            <div class="delete-icon">
+                ⚠
+            </div>
+
+            <h1>Скасувати бронювання?</h1>
+
+            <p>
+                Ви дійсно хочете скасувати бронювання
+                кімнати
+                <strong>{{ object.room.name }}</strong>?
+            </p>
+
+            <p>
+                Дата:
+                <strong>{{ object.booking_date }}</strong>
+            </p>
+
+            <p>
+                Час:
+                <strong>
+                    {{ object.start_time }} —
+                    {{ object.end_time }}
+                </strong>
+            </p>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        Скасувати бронювання
+                    </button>
+
+                    <a
+                        href="{% url 'booking:my_bookings' %}"
+                        class="btn btn-outline"
+                    >
+                        Назад
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Вхід | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <h1>Вітаємо 👋</h1>
+            <p>Увійдіть у свій акаунт</p>
+        </div>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button class="btn btn-primary" type="submit">
+                Увійти
+            </button>
+
+        </form>
+
+        <div class="auth-footer">
+
+            <p>
+                Ще немає акаунта?
+                <a href="{% url 'users:register' %}">
+                    Зареєструватися
+                </a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

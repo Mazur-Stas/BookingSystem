@@ -19,20 +19,6 @@ class BookingForm(forms.ModelForm):
             "end_time": forms.TimeInput(attrs={"type": "time"}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        start_time = cleaned_data.get("start_time")
-        end_time = cleaned_data.get("end_time")
-
-        if start_time and end_time and start_time >= end_time:
-            raise forms.ValidationError(
-                "Час завершення має бути пізніше часу початку."
-            )
-
-        return cleaned_data
-
-
 class RoomSearchForm(forms.Form):
     floor = forms.IntegerField(
         required=False,

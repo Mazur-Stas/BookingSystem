@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Мої бронювання | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="page-header">
+
+        <h1>Мої бронювання</h1>
+
+        <p>
+            Перегляд та керування вашими бронюваннями.
+        </p>
+
+    </div>
+
+
+    {% for booking in bookings %}
+
+        <div class="card booking-item">
+
+            <div>
+
+                <h2>
+                    {{ booking.room.name }}
+                </h2>
+
+                <p>
+                    {{ booking.booking_date }}
+                </p>
+
+                <p>
+                    {{ booking.start_time }}
+                    —
+                    {{ booking.end_time }}
+                </p>
+
+                <p>
+                    {{ booking.purpose }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                {% if booking.status == "NEW" %}
+
+                    <span class="status status-new">
+                        Нова заявка
+                    </span>
+
+                {% elif booking.status == "APPROVED" %}
+
+                    <span class="status status-approved">
+                        Підтверджено
+                    </span>
+
+                {% else %}
+
+                    <span class="status status-rejected">
+                        Відхилено
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="card">
+
+            <h2>Бронювань поки немає</h2>
+
+            <p>
+                Перейдіть до каталогу кімнат,
+                щоб створити перше бронювання.
+            </p>
+
+            <br>
+
+            <a
+                href="{% url 'booking:room_list' %}"
+                class="btn btn-primary"
+            >
+                Переглянути кімнати
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

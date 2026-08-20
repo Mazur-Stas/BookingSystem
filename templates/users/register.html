@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Реєстрація | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <h1>Створити акаунт</h1>
+            <p>Приєднуйтесь до RoomBooking</p>
+        </div>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button class="btn btn-primary" type="submit">
+                Зареєструватися
+            </button>
+
+        </form>
+
+        <div class="auth-footer">
+
+            <p>
+                Вже маєте акаунт?
+                <a href="{% url 'users:login' %}">
+                    Увійти
+                </a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

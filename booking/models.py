@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 class Room(models.Model):
     name = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, blank=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True,max_length=600)
     image = models.ImageField(upload_to="rooms/", blank=True, null=True)
     floor = models.PositiveIntegerField()
     capacity = models.PositiveIntegerField()
@@ -14,10 +14,10 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args1, **args2):
         if not self.slug:
             self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
+        super().save(*args1, **args2)
 
     def __str__(self):
         return self.name
@@ -54,9 +54,9 @@ class Booking(models.Model):
         if conflict.exists():
             raise ValidationError("Ця кімната вже заброньована на вибраний проміжок часу.")
 
-    def save(self, *args, **kwargs):
+    def save(self, *args1, **args2):
         self.full_clean()
-        super().save(*args, **kwargs)
+        super().save(*args1, **args2)
 
     def __str__(self):
         return f"{self.user.username} - {self.room.name} ({self.booking_date})"

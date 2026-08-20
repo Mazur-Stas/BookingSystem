@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Заявки на бронювання | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="manager-header">
+
+        <h1>Заявки на бронювання</h1>
+
+        <p>
+            Перегляд та обробка заявок користувачів.
+        </p>
+
+    </div>
+
+
+    {% for booking in bookings %}
+
+        <div class="card request-card">
+
+            <div class="request-card__header">
+
+                <div>
+
+                    <h2>
+                        {{ booking.room.name }}
+                    </h2>
+
+                    <p>
+                        Користувач:
+                        <strong>
+                            {{ booking.user.username }}
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    {% if booking.status == "NEW" %}
+
+                        <span class="status status-new">
+                            Нова заявка
+                        </span>
+
+                    {% elif booking.status == "APPROVED" %}
+
+                        <span class="status status-approved">
+                            Підтверджено
+                        </span>
+
+                    {% else %}
+
+                        <span class="status status-rejected">
+                            Відхилено
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="request-card__body">
+
+                <p>
+                    <strong>Дата:</strong>
+                    {{ booking.booking_date }}
+                </p>
+
+                <p>
+                    <strong>Час:</strong>
+                    {{ booking.start_time }}
+                    —
+                    {{ booking.end_time }}
+                </p>
+
+                <p>
+                    <strong>Мета:</strong>
+                    {{ booking.purpose }}
+                </p>
+
+            </div>
+
+
+            {% if booking.status == "NEW" %}
+
+                <div class="request-actions">
+
+                    <a
+                        href="{% url 'core:booking_approve' booking.pk %}"
+                        class="btn btn-success"
+                    >
+                        Підтвердити
+                    </a>
+
+                    <a
+                        href="{% url 'core:booking_reject' booking.pk %}"
+                        class="btn btn-danger"
+                    >
+                        Відхилити
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    {% empty %}
+
+        <div class="card">
+
+            <h2>Заявок немає</h2>
+
+            <p>
+                На даний момент немає бронювань для обробки.
+            </p>
+
+        </div>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

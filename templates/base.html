@@ -1,0 +1,123 @@
+{% load static %}
+
+
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}RoomBooking{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="container navbar__content">
+
+        <a href="{% url 'core:home' %}" class="logo">
+            Room<span>Booking</span>
+        </a>
+
+        <nav class="nav">
+
+            <a href="{% url 'core:home' %}">
+                Головна
+            </a>
+
+            <a href="{% url 'booking:room_list' %}">
+                Кімнати
+            </a>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'booking:my_bookings' %}">
+                    Мої бронювання
+                </a>
+
+                <a href="{% url 'users:profile' %}">
+                    Профіль
+                </a>
+
+                {% if user.profile.role == "MANAGER" %}
+
+                    <a href="{% url 'core:dashboard' %}">
+                        Менеджер
+                    </a>
+
+                {% endif %}
+
+            <form method="post" action="{% url 'users:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Вийти</button>
+            </form>
+
+            {% else %}
+
+                <a href="{% url 'users:login' %}">
+                    Увійти
+                </a>
+
+                <a href="{% url 'users:register' %}" class="btn btn-primary">
+                    Реєстрація
+                </a>
+
+            {% endif %}
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+{% if messages %}
+
+<div class="container messages">
+
+    {% for message in messages %}
+
+        <div class="message message-{{ message.tags }}">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+
+<main>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="container">
+
+        <p>
+            © 2026 RoomBooking System
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+
+</html>

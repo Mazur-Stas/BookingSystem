@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Бронювання | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="page-header">
+        <h1>
+            {% if object %}
+                Редагування бронювання
+            {% else %}
+                Нове бронювання
+            {% endif %}
+        </h1>
+
+        <p>
+            Заповніть форму для бронювання приміщення.
+        </p>
+    </div>
+
+
+    <div class="form-container">
+
+        <div class="form-card">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                {% for field in form %}
+
+                    <div class="form-group">
+
+                        {{ field.label_tag }}
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small class="form-help">
+                                {{ field.help_text }}
+                            </small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <div class="form-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        {% if object %}
+                            Зберегти зміни
+                        {% else %}
+                            Створити бронювання
+                        {% endif %}
+                    </button>
+
+                    <a
+                        href="{% url 'booking:my_bookings' %}"
+                        class="btn btn-outline"
+                    >
+                        Скасувати
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

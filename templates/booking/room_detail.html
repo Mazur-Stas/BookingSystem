@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ room.name }} | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="room-detail">
+
+        <div>
+
+            {% if room.image %}
+
+                <img
+                    src="{{ room.image.url }}"
+                    alt="{{ room.name }}"
+                >
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="room-detail__info">
+
+            <h1>{{ room.name }}</h1>
+
+            <p class="room-detail__description">
+                {{ room.description }}
+            </p>
+
+            <div class="card">
+
+                <p>
+                    <strong>Поверх:</strong>
+                    {{ room.floor }}
+                </p>
+
+                <p>
+                    <strong>Місткість:</strong>
+                    {{ room.capacity }} осіб
+                </p>
+
+                <p>
+                    <strong>Статус:</strong>
+                    {% if room.is_active %}
+                        Доступна
+                    {% else %}
+                        Недоступна
+                    {% endif %}
+                </p>
+
+            </div>
+
+            <br>
+
+            {% if user.is_authenticated %}
+
+                <a
+                    href="{% url 'booking:booking_create' %}?room={{ room.pk }}"
+                    class="btn btn-primary"
+                >
+                    Забронювати кімнату
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{% url 'users:login' %}"
+                    class="btn btn-primary"
+                >
+                    Увійдіть для бронювання
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

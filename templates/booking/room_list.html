@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Кімнати | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="page-header">
+
+        <h1>Доступні кімнати</h1>
+
+        <p>
+            Оберіть приміщення, яке підходить для вашої зустрічі.
+        </p>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <form method="get">
+
+            <div class="search-fields">
+
+                <div>
+                    {{ search_form.floor.label_tag }}
+                    {{ search_form.floor }}
+                </div>
+
+                <div>
+                    {{ search_form.capacity.label_tag }}
+                    {{ search_form.capacity }}
+                </div>
+
+                <div>
+                    {{ search_form.date.label_tag }}
+                    {{ search_form.date }}
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary">
+                Знайти кімнату
+            </button>
+
+            <a
+                href="{% url 'booking:room_list' %}"
+                class="btn btn-outline"
+            >
+                Скинути
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <div class="rooms-grid">
+
+        {% for room in rooms %}
+
+            <article class="card room-card">
+
+                {% if room.image %}
+
+                    <img
+                        src="{{ room.image.url }}"
+                        alt="{{ room.name }}"
+                        class="room-card__image"
+                    >
+
+                {% endif %}
+
+                <div class="room-card__content">
+
+                    <h2>{{ room.name }}</h2>
+
+                    <p>
+                        {{ room.description|truncatewords:18 }}
+                    </p>
+
+                    <div class="room-info">
+
+                        <span>
+                            Поверх {{ room.floor }}
+                        </span>
+
+                        <span>
+                            До {{ room.capacity }} осіб
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="{% url 'booking:room_detail' room.slug %}"
+                        class="btn btn-primary"
+                    >
+                        Переглянути
+                    </a>
+
+                </div>
+
+            </article>
+
+        {% empty %}
+
+            <div class="card">
+                <h2>Кімнат не знайдено</h2>
+                <p>Спробуйте змінити параметри пошуку.</p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

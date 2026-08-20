@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Статистика | RoomBooking
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/manager.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="manager-header">
+
+        <h1>Статистика</h1>
+
+        <p>
+            Загальна статистика системи бронювання.
+        </p>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>Користувачі</span>
+
+            <strong>
+                {{ total_users }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Кімнати</span>
+
+            <strong>
+                {{ total_rooms }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Бронювання</span>
+
+            <strong>
+                {{ total_bookings }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Підтверджено</span>
+
+            <strong>
+                {{ approved_bookings }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Нові заявки</span>
+
+            <strong>
+                {{ new_bookings }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Відхилено</span>
+
+            <strong>
+                {{ rejected_bookings }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Керування</h2>
+
+        <br>
+
+        <div class="manager-actions">
+
+            <a
+                href="{% url 'core:dashboard' %}"
+                class="btn btn-outline"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="{% url 'core:booking_requests' %}"
+                class="btn btn-primary"
+            >
+                Переглянути заявки
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
